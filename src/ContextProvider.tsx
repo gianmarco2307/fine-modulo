@@ -3,9 +3,9 @@ import { toDoItem, toDoList } from "./declarations";
 
 export const AppContext = createContext<toDoList>({
   toDoList: [],
-  do: () => {},
-  undo: () => {},
-  remove: () => {},
+  doItem: () => {},
+  undoItem: () => {},
+  removeItem: () => {},
 });
 
 interface Props {
@@ -33,6 +33,7 @@ export function ContextProvider({ children }: Props) {
   function doItem(id: toDoItem["id"]) {
     const newToDoList = toDoList.map((item) => {
       if (item.id === id) {
+        console.log("done: " + item.id);
         return {
           ...item,
           done: true,
@@ -46,6 +47,7 @@ export function ContextProvider({ children }: Props) {
   function undoItem(id: toDoItem["id"]) {
     const newToDoList = toDoList.map((item) => {
       if (item.id === id) {
+        console.log("undone: " + item.id);
         return {
           ...item,
           done: false,
@@ -68,10 +70,10 @@ export function ContextProvider({ children }: Props) {
   return (
     <AppContext.Provider
       value={{
-        toDoList: toDoList,
-        do: doItem,
-        undo: undoItem,
-        remove: removeItem,
+        toDoList,
+        doItem,
+        undoItem,
+        removeItem,
       }}
     >
       {children}

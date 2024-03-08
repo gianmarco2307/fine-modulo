@@ -8,7 +8,7 @@ export type toDoItem = {
 
 export interface toDoList {
     toDoList: toDoItem[];
-    do: (id: toDoItem["id"]) => void;
-    undo: (id: toDoItem["id"]) => void;
-    remove: (id: toDoItem["id"]) => void;
+    doItem: (id: toDoItem["id"]) => void;
+    undoItem: (id: toDoItem["id"]) => void;
+    removeItem: (id: toDoItem["id"]) => void;
 }
