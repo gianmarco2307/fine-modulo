@@ -3,6 +3,8 @@ import { toDoItem, toDoList } from "./declarations";
 
 export const AppContext = createContext<toDoList>({
   toDoList: [],
+  error: false,
+  loading: false,
   doItem: () => {},
   undoItem: () => {},
   removeItem: () => {},
@@ -14,20 +16,30 @@ interface Props {
 
 export function ContextProvider({ children }: Props) {
   const [toDoList, setToDoList] = useState<Array<toDoItem>>([]);
+  const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function getPosts() {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-    const data = await response.json();
-    const newData = data.map((item: any) => {
-      return {
-        userId: item.userId,
-        id: item.id,
-        title: item.title,
-        body: item.body,
-        done: false,
-      };
-    });
-    setToDoList(newData);
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts"
+      );
+      const data = await response.json();
+      const newData = data.map((item: any) => {
+        return {
+          userId: item.userId,
+          id: item.id,
+          title: item.title,
+          body: item.body,
+          done: false,
+        };
+      });
+      setLoading(false);
+      setToDoList(newData);
+    } catch (error) {
+      setError(true);
+    }
   }
 
   function doItem(id: toDoItem["id"]) {
@@ -71,6 +83,8 @@ export function ContextProvider({ children }: Props) {
     <AppContext.Provider
       value={{
         toDoList,
+        error,
+        loading,
         doItem,
         undoItem,
         removeItem,

@@ -12,7 +12,7 @@ import { useContext } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function ToDosList() {
-  const { toDoList, doItem, undoItem, removeItem } = useContext(AppContext);
+  const { toDoList, doItem, undoItem, removeItem, loading, error } = useContext(AppContext);
 
   function onClickItem(id: number) {
     const item = toDoList.find((item) => item.id === id);
@@ -30,13 +30,19 @@ export default function ToDosList() {
     removeItem(id);
   }
 
+  if (loading) return <p>Attendi...</p>;
+
+  if (error) return <p>Ops, qualcosa è andato storto!</p>;
+
   return (
     <List
       sx={{
         width: "100%",
         maxWidth: 550,
-        bgcolor: "background.paper",
+        bgcolor: "antiquewhite",
         margin: "auto",
+        border: "1px solid black",
+        borderRadius: "5px",
       }}
     >
       {toDoList.map((value) => {
