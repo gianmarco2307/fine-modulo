@@ -79,7 +79,7 @@ export default function ToDosList() {
               <List>
                 <ListItemText
                   id={labelId}
-                  primary={`Line item ${value.title}`}
+                  primary={value.title}
                 />
                 <ListItemText
                   sx={{ fontStyle: "italic" }}
